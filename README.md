@@ -4,8 +4,8 @@ aws
 I happen to manage a bunch of EC2 hosts from a bunch of individual AWS accounts. I find it terribly annoying to log into individual AWS consoles in order to
  determine which IP/key combo I should use to log into a given instance.
 
-'aws/bin/aws' (named so because I may expand it to do more than just look at
- EC2) addresses this, and makes several assumptions:
+'aws/bin/aws' (named so because I might expand it to do more than just EC2)
+ addresses this, and makes several assumptions:
 
 1. you have a root ~/aws/ directory
 2. you have an ~/aws/accounts/ directory with account data
@@ -13,7 +13,7 @@ I happen to manage a bunch of EC2 hosts from a bunch of individual AWS accounts.
 4. you have an ~/aws/ec2-api-tools/ directory with the EC2 API tools
 
 The example layout here reflects that.  The 'aws' script itself can technically
- live anywhere.
+ live anywhere, but I recommend pathing it.
 
 ```bash
 # aws
