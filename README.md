@@ -32,3 +32,9 @@ example1-web02: ssh -i ~/aws/keys/example1.pem ec2-user@ec2-2-3-4-5.compute-1.am
 example2-db01: ssh -i ~/aws/keys/example2.pem ec2-user@ec2-3-4-5-6.compute-1.amazonaws.com
 example2-db02: ssh -i ~/aws/keys/example2.pem ec2-user@ec2-4-5-6-7.compute-1.amazonaws.com
 ```
+
+BONUS: source the script in order to use any account-targeted EC2 API tools
+```bash
+# . ~/aws/bin/aws example1
+# ec2-describe-instances
+```
