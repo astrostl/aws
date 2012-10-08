@@ -1,0 +1,49 @@
+#!/bin/bash
+
+aws_env() {
+  source ~/aws/accounts/$1
+
+  export EC2_HOME=~/aws/ec2-api-tools
+
+  if [[ $PATH != *${EC2_HOME}* ]]; then
+    PATH="${PATH}:${EC2_HOME}/bin"
+  fi
+ 
+  if [[ -x /usr/libexec/java_home ]]; then
+    export JAVA_HOME="$(/usr/libexec/java_home)"
+  elif [[ -d /usr/lib/jvm/jre ]]; then
+    export JAVA_HOME="/usr/lib/jvm/jre"
+  fi
+}
+
+aws_parse_instances() {
+  while read -ra ec2; do
+    header="${ec2[0]}"
+
+    if [[ "$header" == 'INSTANCE' ]]; then
+      ip="${ec2[3]}"
+      if [[ "$ip" != 'stopped' ]]; then
+        key="${ec2[6]}.pem"
+      fi
+    elif [[ "$header" == 'TAG' ]]; then
+      if [[ $ip && $key ]]; then
+        name="${ec2[4]}"
+      fi
+    fi
+
+    if [[ $ip && $key && $name ]]; then
+      echo "$name: ssh -i ~/aws/keys/${key} ec2-user@${ip}"
+      unset ip key name
+    fi
+  done < <(ec2-describe-instances)
+}
+
+if (( $# < 1 )); then
+  echo "usage: $0 [account]"
+  ls ~/aws/accounts
+elif [[ -f ~/aws/accounts/$1 ]]; then
+  aws_env "$1"
+  aws_parse_instances
+else
+  echo "error: $1 isn't an account"
+fi
