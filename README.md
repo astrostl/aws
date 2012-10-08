@@ -5,7 +5,7 @@ I happen to manage a bunch of EC2 hosts from a bunch of individual AWS accounts.
  determine which IP/key combo I should use to log into a given instance.
 
 'aws/bin/aws' (named so because I may expand it to do more than just look at
- EC2) is the heart of this, and it has several assumptions:
+ EC2) addresses this, and makes several assumptions:
 
 1. you have a root ~/aws/ directory
 2. you have an ~/aws/accounts/ directory with account data
@@ -14,9 +14,6 @@ I happen to manage a bunch of EC2 hosts from a bunch of individual AWS accounts.
 
 The example layout here reflects that.  The 'aws' script itself can technically
  live anywhere.
-
-`aws` will list accounts, and `aws account` will report login strings for any
- running EC2 instances within that account:
 
 ```bash
 # aws
