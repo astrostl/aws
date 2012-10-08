@@ -19,6 +19,12 @@ The example layout here reflects that.  The 'aws' script itself can technically
  running EC2 instances within that account:
 
 ```bash
+# aws
+usage: /Users/astrostl/aws/bin/aws [account]
+example1	example2
+```
+
+```bash
 # aws example1
 example1-web01: ssh -i ~/aws/keys/example1.pem ec2-user@ec2-1-2-3-4.compute-1.amazonaws.com
 example1-web02: ssh -i ~/aws/keys/example1.pem ec2-user@ec2-2-3-4-5.compute-1.amazonaws.com
