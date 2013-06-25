@@ -27,11 +27,15 @@ aws_parse_instances() {
       fi
     elif [[ "$header" == 'TAG' ]]; then
       if [[ $ip && $key ]]; then
-        name="${ec2[4]}"
+        if [[ -n "${ec2[4]}" ]]; then
+          name="${ec2[4]}"
+        else
+          name="NONAME"
+        fi
       fi
     fi
 
-    if [[ $ip && $key && $name ]]; then
+    if [[ $name && $key && $ip ]]; then
       echo "$name: ssh -i ~/aws/keys/${key} ec2-user@${ip}"
       unset ip key name
     fi
