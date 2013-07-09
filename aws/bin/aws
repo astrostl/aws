@@ -22,7 +22,7 @@ aws_parse_instances() {
 
     if [[ "$header" == 'INSTANCE' ]]; then
       ip="${ec2[3]}"
-      if [[ "$ip" != 'stopped' ]]; then
+      if [[ "$ip" != 'stopped' && "$ip" != 'terminated' ]]; then
         key="${ec2[6]}.pem"
       fi
     elif [[ "$header" == 'TAG' ]]; then
