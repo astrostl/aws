@@ -12,7 +12,7 @@ aws_env() {
   if [[ -x /usr/libexec/java_home ]]; then
     export JAVA_HOME="$(/usr/libexec/java_home)"
   elif [[ -d /usr/lib/jvm/jre ]]; then
-    export JAVA_HOME="/usr/lib/jvm/jre"
+    export JAVA_HOME='/usr/lib/jvm/jre'
   fi
 }
 
@@ -30,7 +30,7 @@ aws_parse_instances() {
         if [[ -n "${ec2[4]}" ]]; then
           name="${ec2[4]}"
         else
-          name="NONAME"
+          name='NONAME'
         fi
       fi
     fi
@@ -45,6 +45,13 @@ aws_parse_instances() {
 if (( $# < 1 )); then
   echo "usage: $0 [account]"
   ls ~/aws/accounts
+elif [[ "$1" == 'all' ]]; then
+  for account in ~/aws/accounts/*; do
+    if [[ -f "$account" ]]; then
+      aws_env "${account##*/}"
+      aws_parse_instances
+    fi
+  done
 elif [[ -f ~/aws/accounts/$1 ]]; then
   aws_env "$1"
   aws_parse_instances
