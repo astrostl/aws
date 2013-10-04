@@ -1,7 +1,7 @@
 aws
 ===
 
-I manage a bunch of individual AWS accounts, which makes it especially annoying to look up IP/key combos using individual AWS consoles.  'aws' (it might expand beyond EC2) addresses this, with a few assumptions that will hopefully be self-explanatory after you 'git clone' this project into your home directory:
+If you're like me, you find looking up IP/key combos for Linux EC2 hosts pretty annoying.  I happen to manage a bunch of individual AWS accounts, which makes it especially annoying.  'aws' (it might expand beyond EC2) addresses this, with a few assumptions that will hopefully be self-explanatory after you 'git clone' this project into your home directory:
 
 1. you have an ~/aws/ directory
 2. you have an ~/aws/accounts/ directory with account data
