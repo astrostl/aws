@@ -35,7 +35,7 @@ example2/example2-db01: ssh -i ~/aws/keys/example2.pem ec2-user@ec2-3-4-5-6.comp
 example2/example2-db02: ssh -i ~/aws/keys/example2.pem ec2-user@ec2-4-5-6-7.compute-1.amazonaws.com
 ```
 
-Running a command on all instances for a given account (this works for all accounts too) (danger!):
+Running a command on all instances for a given account (this works for ALL accounts too) (danger!):
 ```bash
 # aws example2 uname -m
 example2/example2-db01: x86_64
