@@ -1,7 +1,7 @@
 aws
 ===
 
-If you're like me, you find looking up IP/key combos for Linux EC2 hosts pretty annoying.  I happen to manage a bunch of individual AWS accounts, which makes it especially annoying.  'aws' (it might expand beyond EC2) addresses this, with a few assumptions that will hopefully be self-explanatory after you 'git clone' into your home dir:
+If you're like me, you find looking up IP/key combos in order to SSH into Linux EC2 hosts pretty annoying.  Managing multiple AWS accounts takes this to another level.  'aws' (it might expand beyond EC2) seeks to mitigate this, with a few assumptions that will hopefully be self-explanatory after your 'git clone':
 
 1. you have an ~/aws/ directory
 2. you have an ~/aws/accounts/ directory with account data
