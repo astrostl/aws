@@ -2,12 +2,9 @@
 
 aws_env() {
   source ~/aws/accounts/$1
-
   export EC2_HOME=~/aws/ec2-api-tools
 
-  if [[ $PATH != *${EC2_HOME}* ]]; then
-    PATH="${PATH}:${EC2_HOME}/bin"
-  fi
+  [[ $PATH != *${EC2_HOME}* ]] && PATH="${PATH}:${EC2_HOME}/bin"
  
   if [[ -x /usr/libexec/java_home ]]; then
     export JAVA_HOME="$(/usr/libexec/java_home)"
@@ -16,45 +13,40 @@ aws_env() {
   fi
 }
 
-aws_parse_instances() {
-  while read -ra ec2; do
-    header="${ec2[0]}"
+aws_parse() {
+  while read -ra edi; do
+    header="${edi[0]}"
 
-    if [[ "$header" == 'INSTANCE' ]]; then
-      ip="${ec2[3]}"
-      if [[ "$ip" != 'stopped' && "$ip" != 'terminated' && "$ip" != 'pending' ]]; then
-        key="${ec2[6]}.pem"
-      fi
-    elif [[ "$header" == 'TAG' ]]; then
-      if [[ $ip && $key ]]; then
-        if [[ -n "${ec2[4]}" ]]; then
-          name="${ec2[4]}"
-        else
-          name='NONAME'
-        fi
-      fi
+    if [[ $header == INSTANCE ]]; then
+      ip="${edi[3]}"; [[ $ip == ec2* ]] && key="${edi[6]}.pem"
+    elif [[ $header == TAG ]]; then
+      [[ $ip && $key ]] && name="${edi[4]:-NONAME}"
     fi
 
     if [[ $name && $key && $ip ]]; then
-      echo "$name: ssh -i ~/aws/keys/${key} ec2-user@${ip}"
+      if [[ -n $2 ]]; then
+        echo "${1}/${name}: $@"
+        ssh -ni ~/aws/keys/"$key" ec2-user@"$ip" "${@:2}"
+      else
+        echo "${1}/${name}: ssh -i ~/aws/keys/${key} ec2-user@${ip}"
+      fi
       unset ip key name
     fi
   done < <(ec2-describe-instances)
 }
 
-if (( $# < 1 )); then
-  echo "usage: $0 [account]"
-  ls ~/aws/accounts
-elif [[ "$1" == 'all' ]]; then
+if [[ $1 == all ]]; then
   for account in ~/aws/accounts/*; do
-    if [[ -f "$account" ]]; then
-      aws_env "${account##*/}"
-      aws_parse_instances
+    if [[ -f $account ]]; then
+      account="${account##*/}"
+      aws_env "$account"
+      aws_parse "$account" "${@:2}"
     fi
   done
-elif [[ -f ~/aws/accounts/$1 ]]; then
+elif [[ -f ~/aws/accounts/"$1" ]]; then
   aws_env "$1"
-  aws_parse_instances
+  aws_parse "$@"
 else
-  echo "error: $1 isn't an account"
+ echo "usage: $0 [account|all] [command]"
+ for account in ~/aws/accounts/*; do echo -n "${account##*/} "; done; echo
 fi
