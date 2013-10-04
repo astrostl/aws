@@ -1,7 +1,8 @@
 #!/bin/bash
+shopt -s nullglob
 
 aws_env() {
-  source ~/aws/accounts/$1
+  source ~/aws/accounts/"$1"
   export EC2_HOME=~/aws/ec2-api-tools
 
   [[ $PATH != *${EC2_HOME}* ]] && PATH="${PATH}:${EC2_HOME}/bin"
@@ -38,9 +39,9 @@ aws_parse() {
 if [[ $1 == all ]]; then
   for account in ~/aws/accounts/*; do
     if [[ -f $account ]]; then
-      account="${account##*/}"
-      aws_env "$account"
-      aws_parse "$account" "${@:2}"
+      baccount="${account##*/}"
+      aws_env "$baccount"
+      aws_parse "$baccount" "${@:2}"
     fi
   done
 elif [[ -f ~/aws/accounts/"$1" ]]; then
