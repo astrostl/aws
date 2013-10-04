@@ -1,16 +1,7 @@
 aws
 ===
 
-If you're like me, you find looking up IP/key combos in order to SSH into Linux EC2 hosts pretty annoying.  Managing multiple AWS accounts takes this to another level.  'aws' (it might expand beyond EC2) seeks to mitigate this, with a few assumptions that will hopefully be self-explanatory after a 'git clone':
-
-1. you have an ~/aws/ directory
-2. you have an ~/aws/accounts/ directory with account data
-3. you have an ~/aws/keys/ directory with SSH keys
-4. you have an ~/aws/ec2-api-tools/ directory with [the EC2 API tools](http://aws.amazon.com/developertools/351)
-
-Edit account(s), add key(s), and fetch the EC2 API tools.  I recommend aliasing '~/aws/bin/aws'.
-
-Note: 'aws' currently operates on **running** instances with IP addresses (stock or Elastic).
+I find looking up IP/key combos in order to SSH into Linux EC2 hosts pretty annoying.  Managing multiple AWS accounts takes this to another level.  'aws' (it might expand beyond EC2) seeks to mitigate this.  Clone it into your home directory, add your accounts and SSH keys, and fetch [the EC2 API tools](http://aws.amazon.com/developertools/351).
 
 Usage and account list:
 ```bash
