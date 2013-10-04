@@ -10,7 +10,7 @@ I manage a bunch of individual AWS accounts, and find it terribly annoying to lo
 
 The example layout here reflects that.  I recommend aliasing or pathing the 'aws' script.
 
-```
+```bash
 # aws
 usage: /Users/astrostl/aws/bin/aws [account|all] [command]
 example1 example2
