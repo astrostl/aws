@@ -25,7 +25,7 @@ aws_parse() {
 
     if [[ $name && $key && $ip ]]; then
       if [[ -n $2 ]]; then
-        echo "${1}/${name}: $@"
+        echo -n "${1}/${name}: "
         ssh -ni ~/aws/keys/"$key" ec2-user@"$ip" "${@:2}"
       else
         echo "${1}/${name}: ssh -i ~/aws/keys/${key} ec2-user@${ip}"
