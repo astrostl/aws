@@ -10,7 +10,7 @@ If you're like me, you find looking up IP/key combos in order to SSH into Linux 
 
 Edit account(s), add key(s), and fetch the EC2 API tools.  I recommend aliasing '~/aws/bin/aws'.
 
-Note: 'aws' currently operates on **running** instances with IP addresses.
+Note: 'aws' currently operates on **running** instances with IP addresses (stock or Elastic).
 
 Usage and account list:
 ```bash
