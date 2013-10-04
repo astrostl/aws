@@ -5,6 +5,10 @@ aws_env() {
   source ~/aws/accounts/"$1"
   export EC2_HOME=~/aws/ec2-api-tools
 
+  if [[ ! -x ${EC2_HOME}/bin/ec2-describe-instances ]]; then
+    echo "ERROR: couldn't find the EC2 API Tools in $EC2_HOME"; exit 1
+  fi
+
   [[ $PATH != *${EC2_HOME}* ]] && PATH="${PATH}:${EC2_HOME}/bin"
  
   if [[ -x /usr/libexec/java_home ]]; then
