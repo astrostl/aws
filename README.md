@@ -12,18 +12,21 @@ Edit account(s), add key(s), and fetch the EC2 API tools.  I recommend aliasing 
 
 Note: 'aws' currently operates on **running** instances with IP addresses.
 
+Usage and account list:
 ```bash
 # aws
 usage: /Users/astrostl/aws/bin/aws [account|all] [command]
 example1 example2
 ```
 
+Displaying "account/nametag: ssh string" for a given account:
 ```bash
 # aws example1
 example1/example1-web01: ssh -i ~/aws/keys/example1.pem ec2-user@ec2-1-2-3-4.compute-1.amazonaws.com
 example1/example1-web02: ssh -i ~/aws/keys/example1.pem ec2-user@ec2-2-3-4-5.compute-1.amazonaws.com
 ```
 
+Displaying "account/nametag: ssh string" for ALL accounts:
 ```bash
 # aws all
 example1/example1-web01: ssh -i ~/aws/keys/example1.pem ec2-user@ec2-1-2-3-4.compute-1.amazonaws.com
@@ -32,13 +35,14 @@ example2/example2-db01: ssh -i ~/aws/keys/example2.pem ec2-user@ec2-3-4-5-6.comp
 example2/example2-db02: ssh -i ~/aws/keys/example2.pem ec2-user@ec2-4-5-6-7.compute-1.amazonaws.com
 ```
 
+Running a command on a given account (danger, Will Robinson!):
 ```bash
 # aws example2 uname -a
 example2/example2-db01: Linux
 example2/example2-db02: Linux
 ```
 
-BONUS: source the script in order to use any account-targeted EC2 API tools
+BONUS: source the script and it will set up an API account tool usage env in your current shell
 ```bash
 # . ~/aws/bin/aws example1
 # ec2-describe-instances
