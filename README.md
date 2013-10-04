@@ -3,10 +3,10 @@ aws
 
 I manage a bunch of individual AWS accounts, and find it terribly annoying to look up IP/key combos using individual AWS consoles.  'aws' (it might expand beyond EC2) addresses this, with several assumptions:
 
-1. you have a root ~/aws/ directory
-2. you have an ~/aws/accounts/ directory with account data
+1. you have an ~/aws/ directory
+2. you have an ~/aws/accounts/ directory with account data (see examples)
 3. you have an ~/aws/keys/ directory with SSH keys
-4. you have an ~/aws/ec2-api-tools/ directory with the EC2 API tools
+4. you have an ~/aws/ec2-api-tools/ directory with [the EC2 API tools](http://aws.amazon.com/developertools/351)
 
 The example layout here reflects that.  I recommend aliasing or pathing the 'aws' script.
 
