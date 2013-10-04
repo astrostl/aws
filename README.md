@@ -1,9 +1,7 @@
 aws
 ===
 
-I manage a bunch of individual AWS accounts, and find it terribly annoying to look up IP/key combos using individual AWS consoles.
-
-'aws/bin/aws' (I might expand it beyond EC2) addresses this, and makes several assumptions:
+I manage a bunch of individual AWS accounts, and find it terribly annoying to look up IP/key combos using individual AWS consoles.  'aws' (it might expand beyond EC2) addresses this, with several assumptions:
 
 1. you have a root ~/aws/ directory
 2. you have an ~/aws/accounts/ directory with account data
