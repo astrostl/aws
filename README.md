@@ -42,7 +42,7 @@ example2/example2-db01: x86_64
 example2/example2-db02: x86_64
 ```
 
-BONUS: source the script and it will set up an API account tool usage env in your current shell
+BONUS: source the script and it will set up a direct API account tool usage env in your current shell
 ```bash
 # . ~/aws/bin/aws example1
 # ec2-describe-instances
