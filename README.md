@@ -37,9 +37,9 @@ example2/example2-db02: ssh -i ~/aws/keys/example2.pem ec2-user@ec2-4-5-6-7.comp
 
 Running a command on all instances for a given account (this works for all accounts too) (danger!):
 ```bash
-# aws example2 uname -a
-example2/example2-db01: Linux
-example2/example2-db02: Linux
+# aws example2 uname -m
+example2/example2-db01: x86_64
+example2/example2-db02: x86_64
 ```
 
 BONUS: source the script and it will set up an API account tool usage env in your current shell
