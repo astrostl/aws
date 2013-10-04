@@ -8,7 +8,7 @@ I manage a bunch of individual AWS accounts, and find it terribly annoying to lo
 3. you have an ~/aws/keys/ directory with SSH keys
 4. you have an ~/aws/ec2-api-tools/ directory with [the EC2 API tools](http://aws.amazon.com/developertools/351)
 
-Clone this into your home dir, grab the EC2 API tools, edit, and you're set.  I recommend aliasing 'bin/aws'.
+'git clone' from your home dir, grab the EC2 API tools, edit, and you're set.  I recommend aliasing 'bin/aws'.
 
 ```bash
 # aws
