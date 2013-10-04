@@ -1,7 +1,7 @@
 aws
 ===
 
-I find looking up IP/key combos in order to SSH into Linux EC2 hosts pretty annoying.  Managing multiple AWS accounts takes this to another level.  'aws' (it might expand beyond EC2) seeks to mitigate this.  Clone it into your Mac or Linux home directory, add your accounts and SSH keys, and fetch [the EC2 API tools](http://aws.amazon.com/developertools/351).
+I find looking up IP/key combos in order to SSH into Linux EC2 hosts pretty annoying.  Managing multiple AWS accounts takes this to another level.  'aws' (it might expand beyond EC2) seeks to mitigate this.  Clone it into your home directory, add your accounts and SSH keys, and fetch [the EC2 API tools](http://aws.amazon.com/developertools/351).
 
 Usage and account list:
 ```bash
