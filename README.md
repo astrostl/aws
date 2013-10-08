@@ -39,6 +39,12 @@ Running a command on a specific instance in a given account (danger!):
 example2/example2-db01: x86_64
 ```
 
+INTERACTIVE login to a specific instance in a given account:
+```bash
+# aws example2/example2-db01 -i
+[ec2-user@domU-00-11-22-33-44-55 ~]$
+```
+
 BONUS: source the script and it will set up a direct API account tool usage env in your current shell
 ```bash
 # . ~/aws/bin/aws example1
