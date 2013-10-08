@@ -59,9 +59,9 @@ elif [[ -f ~/aws/accounts/${1%/*} ]]; then
   [[ $account != $instance ]] && ediflags="-F tag-value=${instance}"
   aws_env "$account"
   aws_parse "$account" "${@:2}"
-  [[ -n $conn ]] && $conn
   [[ -n $nostdout ]] && echo "NO STDOUT: $nostdout"
   [[ ! $hit ]] && echo "ERROR: $1 instance not found"
+  [[ -n $conn ]] && $conn
 else
  echo "usage: $0 [account|account/instance|all] [command|-i]"
  for account in ~/aws/accounts/*; do echo -n "${account##*/} "; done; echo
