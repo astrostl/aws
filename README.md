@@ -33,6 +33,12 @@ example2/example2-db01: x86_64
 example2/example2-db02: x86_64
 ```
 
+Running a command on a specific instance in a given account (danger!):
+```bash
+# aws example2/example2-db01 uname -m
+example2/example2-db01: x86_64
+```
+
 BONUS: source the script and it will set up a direct API account tool usage env in your current shell
 ```bash
 # . ~/aws/bin/aws example1
