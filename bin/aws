@@ -23,20 +23,21 @@ aws_parse() {
     header="${edi[0]}"
 
     if [[ $header == INSTANCE ]]; then
-      ip="${edi[3]}"; [[ $ip == ec2* ]] && key="${edi[6]}.pem"
+      hostname="${edi[3]}"; [[ $hostname == ec2* ]] && key="${edi[6]}.pem"
     elif [[ $header == TAG ]]; then
-      [[ $ip && $key ]] && name="${edi[4]:-NONAME}"
+      [[ $hostname && $key ]] && name="${edi[4]:-NONAME}"
     fi
 
-    if [[ $name && $key && $ip ]]; then
+    if [[ $name && $key && $hostname ]]; then
+      hit='1'
       fname="${1}/${name}"
       if [[ -n $2 ]]; then
-        stdout="$(ssh -ni ~/aws/keys/"$key" ec2-user@"$ip" "${@:2}")"
+        stdout="$(ssh -ni ~/aws/keys/"$key" ec2-user@"$hostname" "${@:2}")"
         [[ -n $stdout ]] && echo "${fname}: $stdout" || nostdout+="${fname} "
       else
-        echo "${fname}: ssh -i ~/aws/keys/${key} ec2-user@${ip}"
+        echo "${fname}: ssh -i ~/aws/keys/${key} ec2-user@${hostname}"
       fi
-      unset ip key name fname
+      unset hostname key name fname
     fi
   done < <(ec2-describe-instances $ediflags)
 }
@@ -56,6 +57,7 @@ elif [[ -f ~/aws/accounts/${1%/*} ]]; then
   aws_env "$account"
   aws_parse "$account" "${@:2}"
   [[ -n $nostdout ]] && echo "NO STDOUT: $nostdout"
+  [[ ! $hit ]] && echo "ERROR: $1 instance not found"
 else
  echo "usage: $0 [account|all] [command]"
  for account in ~/aws/accounts/*; do echo -n "${account##*/} "; done; echo
