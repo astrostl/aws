@@ -29,8 +29,7 @@ aws_parse() {
     fi
 
     if [[ $name && $key && $hostname ]]; then
-      hit='1'
-      fname="${1}/${name}"
+      hit='1'; fname="${1}/${name}"
       if [[ -n $2 ]]; then
         stdout="$(ssh -ni ~/aws/keys/"$key" ec2-user@"$hostname" "${@:2}")"
         [[ -n $stdout ]] && echo "${fname}: $stdout" || nostdout+="${fname} "
