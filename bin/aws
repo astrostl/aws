@@ -29,14 +29,14 @@ aws_parse() {
     fi
 
     if [[ $name && $key && $ip ]]; then
-      fullname="${1}/${name}"
+      fname="${1}/${name}"
       if [[ -n $2 ]]; then
         stdout="$(ssh -ni ~/aws/keys/"$key" ec2-user@"$ip" "${@:2}")"
-        [[ -n $stdout ]] && echo "${fullname}: $stdout" || nostdout+="${fullname} "
+        [[ -n $stdout ]] && echo "${fname}: $stdout" || nostdout+="${fname} "
       else
-        echo "${fullname}: ssh -i ~/aws/keys/${key} ec2-user@${ip}"
+        echo "${fname}: ssh -i ~/aws/keys/${key} ec2-user@${ip}"
       fi
-      unset ip key name fullname
+      unset ip key name fname
     fi
   done < <(ec2-describe-instances $ediflags)
 }
@@ -52,7 +52,7 @@ if [[ $1 == all ]]; then
   [[ -n $nostdout ]] && echo "NO STDOUT: $nostdout"
 elif [[ -f ~/aws/accounts/${1%/*} ]]; then
   account="${1%/*}"; instance="${1#*/}"
-  [[ $instance ]] && ediflags="-F tag-value=${instance}"
+  [[ $account != $instance ]] && ediflags="-F tag-value=${instance}"
   aws_env "$account"
   aws_parse "$account" "${@:2}"
   [[ -n $nostdout ]] && echo "NO STDOUT: $nostdout"
