@@ -6,7 +6,7 @@ I find looking up IP/key combos in order to SSH into Linux EC2 hosts pretty anno
 Usage and account list:
 ```bash
 # aws
-usage: /Users/astrostl/aws/bin/aws [account|all] [command]
+usage: /Users/astrostl/aws/bin/aws [account|account/instance|all] [command|-i]
 example1 example2
 ```
 
