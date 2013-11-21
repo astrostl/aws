@@ -26,6 +26,8 @@ aws_parse() {
       hostname="${edi[3]}"; [[ $hostname == ec2* ]] && key="${edi[6]}.pem"
     elif [[ $header == TAG ]]; then
       [[ $hostname && $key ]] && name="${edi[4]:-NONAME}"
+    elif [[ $header == RESERVATION ]]; then
+      [[ $hostname && $key ]] && name='NONAME'
     fi
 
     if [[ $name && $key && $hostname ]]; then
