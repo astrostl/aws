@@ -4,12 +4,19 @@ shopt -s nullglob
 aws_env() {
   source ~/aws/accounts/"$1"
   export EC2_HOME=~/aws/ec2-api-tools
+  export AWS_RDS_HOME=~/aws/RDSCli
+  export AWS_CREDENTIAL_FILE=~/aws/accounts/"$1"
 
   if [[ ! -x ${EC2_HOME}/bin/ec2-describe-instances ]]; then
     echo "ERROR: couldn't find the EC2 API Tools in $EC2_HOME"; exit 1
   fi
 
-  [[ $PATH != *${EC2_HOME}* ]] && PATH="${PATH}:${EC2_HOME}/bin"
+#  if [[ ! -x ${AWS_RDS_HOME}/bin/rds-describe-db-instances ]]; then
+#    echo "WARNING: couldn't find the RDS CLI Toolkit in $AWS_RDS_HOME"
+#  fi
+
+  [[ $PATH != *${EC2_HOME}* ]] && export PATH="${PATH}:${EC2_HOME}/bin"
+  [[ $PATH != *${AWS_RDS_HOME}* ]] && export PATH="${PATH}:${AWS_RDS_HOME}/bin"
  
   if [[ -x /usr/libexec/java_home ]]; then
     export JAVA_HOME="$(/usr/libexec/java_home)"
@@ -23,7 +30,8 @@ aws_parse() {
     header="${edi[0]}"
 
     if [[ $header == INSTANCE ]]; then
-      hostname="${edi[3]}"; [[ $hostname == ec2* ]] && key="${edi[6]}.pem"
+      hostname="${edi[3]}"
+      [[ $hostname == ec2* ]] && key="${edi[6]}.pem" type="${edi[8]}"
     elif [[ $header == TAG ]]; then
       [[ $hostname && $key ]] && name="${edi[4]:-NONAME}"
     elif [[ $header == RESERVATION ]]; then
@@ -40,7 +48,7 @@ aws_parse() {
           [[ -n $stdout ]] && echo "${fname}: $stdout" || nostdout+="${fname} "
         fi
       else
-        echo "${fname}: ssh -i ~/aws/keys/${key} ec2-user@${hostname}"
+        echo "${fname} (${type}): ssh -i ~/aws/keys/${key} ec2-user@${hostname}"
       fi
       unset hostname key name fname
     fi
