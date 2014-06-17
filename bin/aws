@@ -11,9 +11,9 @@ aws_env() {
     echo "ERROR: couldn't find the EC2 API Tools in $EC2_HOME"; exit 1
   fi
 
-#  if [[ ! -x ${AWS_RDS_HOME}/bin/rds-describe-db-instances ]]; then
-#    echo "WARNING: couldn't find the RDS CLI Toolkit in $AWS_RDS_HOME"
-#  fi
+  if [[ ! -x ${AWS_RDS_HOME}/bin/rds-describe-db-instances ]]; then
+    echo "WARNING: couldn't find the RDS CLI Toolkit in $AWS_RDS_HOME"
+  fi
 
   [[ $PATH != *${EC2_HOME}* ]] && export PATH="${PATH}:${EC2_HOME}/bin"
   [[ $PATH != *${AWS_RDS_HOME}* ]] && export PATH="${PATH}:${AWS_RDS_HOME}/bin"
@@ -25,7 +25,7 @@ aws_env() {
   fi
 }
 
-aws_parse() {
+ec2_parse() {
   while read -ra edi; do
     header="${edi[0]}"
 
@@ -55,12 +55,29 @@ aws_parse() {
   done < <(ec2-describe-instances $ediflags)
 }
 
+rds_parse() {
+  while read -ra rdi; do
+    if [[ ${rdi[0]} == DBINSTANCE && ${rdi[7]} == available ]]; then
+      if [[ ${rdi[13]} == y ]]; then
+        dver="${rdi[14]}"
+      else
+        dver="${rdi[13]}"
+      fi
+      echo "${baccount}/${rdi[1]} (${rdi[3]}) ${rdi[5]}GB $dver ${rdi[8]}"
+    fi
+  done < <(rds-describe-db-instances --I "$AWS_ACCESS_KEY" --S "$AWS_SECRET_KEY")
+}
+
 if [[ $1 == all ]]; then
   for account in ~/aws/accounts/*; do
     if [[ -f $account ]]; then
       baccount="${account##*/}"
       aws_env "$baccount"
-      aws_parse "$baccount" "${@:2}"
+      if [[ $2 == rds ]]; then
+        rds_parse
+      else
+        ec2_parse "$baccount" "${@:2}"
+      fi
     fi
   done
   [[ -n $nostdout ]] && echo "NO STDOUT: $nostdout"
@@ -68,7 +85,7 @@ elif [[ -f ~/aws/accounts/${1%/*} ]]; then
   account="${1%/*}"; instance="${1#*/}"
   [[ $account != $instance ]] && ediflags="-F tag-value=${instance}"
   aws_env "$account"
-  aws_parse "$account" "${@:2}"
+  ec2_parse "$account" "${@:2}"
   [[ -n $nostdout ]] && echo "NO STDOUT: $nostdout"
   [[ ! $hit ]] && echo "ERROR: $1 instance not found"
   [[ -n $conn ]] && $conn
