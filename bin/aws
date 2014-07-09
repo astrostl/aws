@@ -32,6 +32,7 @@ ec2_parse() {
     if [[ $header == INSTANCE ]]; then
       hostname="${edi[3]}"
       [[ $hostname == ec2* ]] && key="${edi[6]}.pem" type="${edi[8]}"
+      [[ $hostname == ip* ]] && key="${edi[5]}.pem" type="${edi[7]}"
     elif [[ $header == TAG ]]; then
       [[ $hostname && $key ]] && name="${edi[4]:-NONAME}"
     elif [[ $header == RESERVATION ]]; then
