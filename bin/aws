@@ -45,8 +45,8 @@ ec2_parse() {
         if [[ $2 == -i ]]; then
           conn="ssh -i $HOME/aws/keys/${key} ec2-user@${hostname}"
         else
-          stdout="$(ssh -ni ~/aws/keys/"$key" ec2-user@"$hostname" "${@:2}")"
-          [[ -n $stdout ]] && echo "${fname}: $stdout" || nostdout+="${fname} "
+          output="$(ssh -ni ~/aws/keys/"$key" ec2-user@"$hostname" "${@:2}" 2>&1)"
+          [[ -n $output ]] && echo "${fname}: $output" || nooutput+="${fname} "
         fi
       else
         echo "${fname} (${type}): ssh -i ~/aws/keys/${key} ec2-user@${hostname}"
@@ -81,13 +81,13 @@ if [[ $1 == all ]]; then
       fi
     fi
   done
-  [[ -n $nostdout ]] && echo "NO STDOUT: $nostdout"
+  [[ -n $nooutput ]] && echo "NO OUTPUT: $nooutput"
 elif [[ -f ~/aws/accounts/${1%/*} ]]; then
   account="${1%/*}"; instance="${1#*/}"
   [[ $account != $instance ]] && ediflags="-F tag-value=${instance}"
   aws_env "$account"
   ec2_parse "$account" "${@:2}"
-  [[ -n $nostdout ]] && echo "NO STDOUT: $nostdout"
+  [[ -n $nooutput ]] && echo "NO STDOUT: $nooutput"
   [[ ! $hit ]] && echo "ERROR: $1 instance not found"
   [[ -n $conn ]] && $conn
 else
